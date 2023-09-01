@@ -34,3 +34,16 @@ class Solution2 {
     return dp2;
   }
 };
+
+// Wrong answer, because robber can skip two houses, but not odd or even house.
+class Solution3 {
+public:
+  int rob(vector<int>& nums) {
+    int maxOdd = 0, maxEven = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (i & 0x1) maxEven += nums[i];
+      else maxOdd += nums[i];
+    }
+    return max(maxOdd, maxEven);
+  }
+};
