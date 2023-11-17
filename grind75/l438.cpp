@@ -47,3 +47,49 @@ public:
     return result;
   }
 };
+
+class Solution2 {
+public:
+  vector<int> findAnagrams(string s, string p) {
+    vector<int> result;
+    if (p.size() > s.size()) return result;
+
+    vector<int> pv(26, 0);
+    vector<int> sv(26, 0);
+    for (auto c : p) {
+      pv[c - 'a'] += 1;
+    }
+
+    int l = 0, r = 0;
+    bool start = false;
+    while (r < s.size()) {
+      int c = s[r] - 'a';
+      if (pv[c] == 0) {
+        while (l < r)
+          sv[s[l++] - 'a'] = 0;
+        start = false;
+      }
+      else {
+        if (!start) {
+          l = r;
+          start = true;
+        }
+
+        sv[c]++;
+
+        while (sv[c] > pv[c]) {
+          sv[s[l] - 'a']--;
+          l++;
+        }
+
+        if (r - l + 1 == p.size()) {
+          result.push_back(l);
+          sv[s[l] - 'a']--;
+          l++;
+        }
+      }
+      r++;
+    }
+    return result;
+  }
+};
