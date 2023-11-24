@@ -8,7 +8,7 @@ public:
 
     idxStack.push(temperatures.size() - 1);
     for (int i = temperatures.size() - 2; i >= 0; --i) {
-      while (!idxStack.empty() && temperatures[idxStack.top()] < temperatures[i])
+      while (!idxStack.empty() && temperatures[idxStack.top()] <= temperatures[i])
         idxStack.pop();
 
       if (!idxStack.empty())
