@@ -7,37 +7,68 @@ using namespace std;
 
 // 1.backtrack
 
-// 2. DP
 class Solution {
 public:
-  bool canPartition(vector<int>& nums) {
-    int halfSum = 0;
-    for (int i = 0; i < nums.size(); ++i)
-      halfSum += nums[i];
-    if (halfSum & 0x1) return false;
-    halfSum /= 2;
-  
-    vector<bool> dp(halfSum + 1, false);
-    dp[0] = false;
-    if (nums[0] > halfSum) return false;
-    dp[nums[0]] = true;
-    for (int i = 1; i < nums.size(); ++i) {
-      for (int j = halfSum; j > nums[i]; --j) {
-        dp[j] = dp[j - nums[i]] | dp[j];
-        if (dp[halfSum]) return true;
-      }
-      if (dp[halfSum]) return true;
+  void dfs(vector<vector<int>>& heights, int i, int j, vector<vector<bool>>& to) {
+    if (to[i][j]) return;
+
+    to[i][j] = true;
+    if (i > 0 && heights[i][j] <= heights[i - 1][j]) 
+      dfs(heights, i - 1, j, to);
+    if (i < heights.size() - 1 && heights[i][j] <= heights[i + 1][j])
+      dfs(heights, i + 1, j, to);
+    if (j > 0 && heights[i][j] <= heights[i][j - 1])
+      dfs(heights, i, j - 1, to);
+    if (j < heights[i].size() - 1 && heights[i][j] <= heights[i][j + 1])
+      dfs(heights, i, j + 1, to);
+  }
+
+  vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+    vector<vector<bool>> toP(heights.size(), vector<bool>(heights[0].size(), false));
+    vector<vector<bool>> toA(heights.size(), vector<bool>(heights[0].size(), false));
+
+    for (int i = 0; i < heights.size(); ++i) {
+      dfs(heights, i, 0, toP);
     }
-    return false;
+    for (int j = 1; j < heights[0].size(); ++j) {
+      dfs(heights, 0, j, toP);
+    }
+    for (int i = 0; i < heights.size(); ++i) {
+      dfs(heights, i, heights[i].size() - 1, toA);
+    }
+    for (int j = 0; j < heights[0].size() - 1; ++j) {
+      dfs(heights, heights.size() - 1, j, toA);
+    }
+
+    vector<vector<int>> result;
+    for (int i = 0; i < heights.size(); ++i)
+      for (int j = 0; j < heights[i].size(); ++j)
+        if (toP[i][j] && toA[i][j])
+          result.push_back({i, j});
+
+    return result;
   }
 };
 
+// 3. DP optimizing
+
+
+
 int main() {
-  vector<int> nums = {
-    2,2,3,5
+  vector<vector<int>> heights = {
+    {1,2,3},
+    {8,9,4},
+    {7,6,5}
   };
   Solution s;
   
-  cout << s.canPartition(nums) << endl;
+  auto r = s.pacificAtlantic(heights);
+
+  for (auto v : r) {
+    for (auto p : v)
+      cout << p << " " ;
+    cout << endl;
+  }
+
   return 0;
 }
