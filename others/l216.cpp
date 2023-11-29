@@ -10,6 +10,7 @@ void dfs(vector<vector<int>>& result, vector<int>& picked, int k, int n, int sta
   
 
   for (int i = start; i <= 9; ++i) {
+    if (i > n) return; // optimal
     picked.push_back(i);
     dfs(result, picked, k - 1, n - i, i + 1);
     picked.pop_back();
