@@ -13,9 +13,8 @@ int widthOfBinaryTree(TreeNode* root) {
       TreeNode* n = q.front().first;
       unsigned int id = q.front().second;
       q.pop();
-      cout << n->val << ", " << endl;
       if (i == 0) l = id;
-      else if (i == size - 1) r = id;
+      if (i == size - 1) r = id;
 
       if (n->left) {
         q.push({n->left, id * 2});
