@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/valid-anagram/
 
+// TODO: use array[26] for all lower case scenario
 class Solution {
 public:
   bool isAnagram(string s, string t) {

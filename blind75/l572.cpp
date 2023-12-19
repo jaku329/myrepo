@@ -1,5 +1,7 @@
 // https://leetcode.com/problems/subtree-of-another-tree
 
+
+// Not optimal solution
 class Solution {
 public:
   bool sameTree(TreeNode* t1, TreeNode* t2) {
