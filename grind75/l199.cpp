@@ -14,7 +14,7 @@ public:
         TreeNode* n = q.front();
         q.pop();
 
-        if (i = size - 1)
+        if (i == size - 1)
           result.push_back(n->val);
 
         if (n->left) q.push(n->left);
