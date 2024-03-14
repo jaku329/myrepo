@@ -15,6 +15,7 @@ priority_queue<long> pq;
 unordered_map<long, Callback> umap;
 void myCallback() {
   Callback cb = umap[pq.top()];
+  umap.erase(pq.top());
   pq.pop();
   if (!pq.empty()) 
     setTimer(pq.top() - getCurrentTimeMillis(), myCallback);
